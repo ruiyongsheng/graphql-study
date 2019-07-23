@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>graphql</title>
+</head>
+<body>
+  <button onclick="getData()">获取数据</button>
+</body>
+<script>
+function getData(params) {
+  const query = `
+    query Account($username:String,$city:String){
+      account(username:$username){
+        name
+        age
+        sex
+        salary(city:$city)
+      }
+    }
+  `;
+  const variables = { username : '李大四', city: '北京'};
+  fetch('/graphql',{
+    method:'post',
+    headers:{
+      'Content-Type':'application/json',
+      'Accept':'application/json'
+    },
+    body:JSON.stringify({
+      query,
+      variables,
+    })
+  }).then(res =>res.json).then(json=>{
+    console.log(json);
+  })
+}
+</script>
+</html>
